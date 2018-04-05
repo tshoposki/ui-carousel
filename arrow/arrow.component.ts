@@ -1,12 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-    selector: 'arrow',
-    template: `
+  selector: 'arrow',
+  template: `
         <div class="arrow" (click)="onClick()" 
         [ngClass]="{ left : dir === 'left', right : dir === 'right', disabled  : disabled}"></div>
     `,
-    styles: [`
+  styles: [
+    `
         .arrow{
             position: absolute;
             height: 50px;
@@ -81,22 +82,20 @@ import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@an
             opacity: .4;
             cursor: pointer;
         }
-    `]
+    `
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class ArrowComponent {
-    @Input() dir: string;
+  @Input() dir: string;
 
-    @Input("disabled")
-    disabled: boolean = true;
+  @Input('disabled') disabled: boolean = true;
 
-    @Output('on-click') click: EventEmitter<any> = new EventEmitter<any>();
+  @Output('on-click') click: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor() {}
 
-    constructor() { }
-
-    onClick() {
-        if (!this.disabled)
-            this.click.emit();
-    }
+  onClick() {
+    if (!this.disabled) this.click.emit();
+  }
 }

@@ -1,11 +1,12 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-    selector: 'dots',
-    template: `
+  selector: 'dots',
+  template: `
     <div class="dot" *ngFor="let index of numbers" (click)="click(index)" [class.active]="activeDot === index"></div>
     `,
-    styles : [`
+  styles: [
+    `
         :host{
             position: absolute;
             display: inline-block;
@@ -50,29 +51,33 @@ import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, HostBind
         .dot.active{
             opacity: .8;
         }
-    `]
+    `
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class DotsComponent implements OnInit {
-    numbers: Array<number>;
+  numbers: Array<number>;
 
-    @Input("active-dot") activeDot: number = 0;
-    @Input("dots-count") dotsCount: number;
+  @Input('active-dot') activeDot: number = 0;
+  @Input('dots-count') dotsCount: number;
 
-    @HostBinding("class")
-    @Input() position: string = "left";
+  @HostBinding('class')
+  @Input()
+  position: string = 'left';
 
-    @Output("on-click") onClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output('on-click')
+  onClick: EventEmitter<number> = new EventEmitter<number>();
 
-    constructor() {
-    }
+  constructor() {}
 
-    ngOnInit() {
-        this.numbers = Array(this.dotsCount).fill(0).map((x, i) => i);
-    }
+  ngOnInit() {
+    this.numbers = Array(this.dotsCount)
+      .fill(0)
+      .map((x, i) => i);
+  }
 
-    click(index: any) {
-        this.onClick.emit(index);
-        this.activeDot = index;
-    }
+  click(index: any) {
+    this.onClick.emit(index);
+    this.activeDot = index;
+  }
 }
